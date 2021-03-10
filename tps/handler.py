@@ -129,6 +129,7 @@ class Handler(md.Processor):
 
             vector.extend(elem)
 
+	print(vector)
         return [self.symbol_to_id[s] for s in vector if self._should_keep_symbol(s)]
 
 

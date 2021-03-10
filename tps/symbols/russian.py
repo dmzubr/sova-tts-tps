@@ -46,12 +46,16 @@ vowels = {
     "ы": "y",
 }
 
+unstressed_vowels = [i + "0" for i in vowels.values()]
 stressed_vowels = [i + "1" for i in vowels.values()]
 
 o_unstressed = "ay"
 
 PHONEMES_RU_TRANS = sorted(set(list(hard_cons.values()) + soft_cons + list(other_cons.values()) +
-                              list(vowels.values()) + [o_unstressed]))
+                           #   list(vowels.values()) + [o_unstressed])
+			       list(unstressed_vowels) + [o_unstressed] + list(stressed_vowels)
+			   )
+print(f'PHONEMS ARE: {PHONEMES_RU_TRANS}')
 
 RU_SET = GRAPHEMES_RU
 RU_TRANS_SET = PHONEMES_RU_TRANS

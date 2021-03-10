@@ -71,9 +71,11 @@ def convert_vowels(phones):
                 new_phones.append("j")
         if phone[0] in russian.vowels:
             if phone[1] == 1:
-                new_phones.append(accent + separator + russian.vowels[phone[0]])
+                # new_phones.append(accent + separator + russian.vowels[phone[0]])
+		new_phones.append(russian.vowels[phone[0]] + '1')
             else:
-                new_phones.append(russian.vowels[phone[0]])
+                # new_phones.append(russian.vowels[phone[0]])
+		new_phones.append(russian.vowels[phone[0]] + '0')
         else:
             new_phones.append(phone[0])
         prev = phone[0]
