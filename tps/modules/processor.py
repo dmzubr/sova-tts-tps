@@ -4,9 +4,9 @@ from typing import Union, Pattern
 
 from nltk import sent_tokenize, word_tokenize
 
-from tps.utils import split_to_tokens, NOT_PUNCT_DICT
-from tps.types import Delimiter, Charset
-from tps.symbols import separator, shields
+from ..utils import split_to_tokens, NOT_PUNCT_DICT
+from ..types import Delimiter, Charset
+from ..ssymbols import separator, shields
 
 
 char_map = OrderedDict({

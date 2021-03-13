@@ -1,9 +1,9 @@
 from typing import Union
 
-from tps.modules.processor import Processor
-from tps.utils import load_dict, prob2bool
-from tps.symbols import punctuation, space, accent, shields
-from tps.types import Charset
+from ...processor import Processor
+from ....utils import load_dict, prob2bool
+from ....ssymbols import punctuation, space, accent, shields
+from ....types import Charset
 
 """
 If you need to extend the Phonetizer functionality with

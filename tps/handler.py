@@ -1,19 +1,19 @@
 import re
 from typing import Union, Callable, Iterator
 
-import tps.symbols as smb
-from tps.utils.cleaners import invalid_charset_cleaner, collapse_whitespace
-from tps.utils import load_dict
-import tps.modules as md
-import tps.types as types
+from ..tps import ssymbols as smb
+from .utils.cleaners import invalid_charset_cleaner, collapse_whitespace
+from .utils import load_dict
+from ..tps import modules as md
+from .types import Charset, Delimiter, Module, BasedOn
 
 
 _curly = re.compile("({}.+?{})".format(*smb.shields))
 _invalid_symbols_dict = {
-    types.Charset.en: smb.symbols_en + smb.shields + [smb.separator],
-    types.Charset.en_cmu: smb.symbols_en_cmu + smb.shields + [smb.separator],
-    types.Charset.ru: smb.symbols_ru + smb.shields + [smb.separator],
-    types.Charset.ru_trans: smb.symbols_ + smb.GRAPHEMES_RU + smb.PHONEMES_RU_TRANS + smb.shields + [smb.separator],
+    Charset.en: smb.symbols_en + smb.shields + [smb.separator],
+    Charset.en_cmu: smb.symbols_en_cmu + smb.shields + [smb.separator],
+    Charset.ru: smb.symbols_ru + smb.shields + [smb.separator],
+    Charset.ru_trans: smb.symbols_ + smb.GRAPHEMES_RU + smb.PHONEMES_RU_TRANS + smb.shields + [smb.separator],
 }
 
 
@@ -47,7 +47,7 @@ class Handler(md.Processor):
 
 
     def generate(self, text: str, cleaner: Callable[[str], str]=None, user_dict: dict=None, keep_delimiters: bool=True,
-                 **kwargs) -> Iterator[Union[str, types.Delimiter]]:
+                 **kwargs) -> Iterator[Union[str, Delimiter]]:
         self._clear_state()
         kwargs["user_dict"] = user_dict
 
@@ -58,7 +58,7 @@ class Handler(md.Processor):
         self._out_data = {sentence: [] for sentence in sentences}
 
         for sentence in sentences:
-            if not isinstance(sentence, types.Delimiter):
+            if not isinstance(sentence, Delimiter):
                 sentence = self.apply_to_sentence(sentence, **kwargs)
 
                 if self.out_max_length is not None:
@@ -129,7 +129,7 @@ class Handler(md.Processor):
 
             vector.extend(elem)
 
-	print(vector)
+        print(vector)
         return [self.symbol_to_id[s] for s in vector if self._should_keep_symbol(s)]
 
 
@@ -167,11 +167,11 @@ class Handler(md.Processor):
 
         out_max_length = handler_config["out_max_length"]
         modules_list = handler_config["modules"]
-        charset = types.Charset(handler_config["charset"])
+        charset = Charset(handler_config["charset"])
 
         modules = []
         for module in modules_list:
-            module = types.Module(module)
+            module = Module(module)
             module_config = config[module.value]
             module_config["charset"] = charset
 
@@ -199,7 +199,7 @@ class Handler(md.Processor):
                     print("There is no emphasizer in modules. "
                           "Phonetizer will process words only with stress tokens set by user")
 
-        if self.charset == types.Charset.ru_trans:
+        if self.charset == Charset.ru_trans:
             assert phonetizer_type == md.RUglyPhonetizer, \
                 "Wrong phonetizer type {} for current charset {}".format(phonetizer_type, self.charset)
         # elif self.charset == types.Charset.en_cmu:
@@ -212,24 +212,24 @@ class Handler(md.Processor):
 
 
 def get_symbols_length(charset: str):
-    charset = types.Charset[charset]
+    charset = Charset[charset]
     return len(smb.symbols_dict[charset])
 
 
 _modules_dict = {
-    types.Module.emphasizer: {
-        types.BasedOn.rule: {
-            types.Charset.ru: {
+    Module.emphasizer: {
+        BasedOn.rule: {
+            Charset.ru: {
                 "module": md.Emphasizer,
                 "args": ("charset", ),
                 "optional": ("dict_source", "prefer_user")
             },
-            types.Charset.ru_trans: types.Charset.ru
+            Charset.ru_trans: Charset.ru
         }
     },
-    types.Module.phonetizer: {
-        types.BasedOn.rule: {
-            types.Charset.ru_trans: {
+    Module.phonetizer: {
+        BasedOn.rule: {
+            Charset.ru_trans: {
                 "module": md.RUglyPhonetizer,
                 "optional": ("dict_source", )
             }
@@ -241,7 +241,7 @@ _modules_dict = {
 def _get_module(module_type, module_config):
     module_tree = _modules_dict[module_type]
 
-    based_on = types.BasedOn(module_config["type"])
+    based_on = BasedOn(module_config["type"])
 
     if based_on not in module_tree:
         raise NotImplementedError
@@ -254,7 +254,7 @@ def _get_module(module_type, module_config):
         else:
             config = language_tree[charset]
 
-            if isinstance(config, types.Charset):
+            if isinstance(config, Charset):
                 config = language_tree[config]
 
     module = config["module"]

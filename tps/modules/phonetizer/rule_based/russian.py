@@ -1,10 +1,10 @@
 import re
 from typing import Union
 
-from tps.modules.phonetizer.rule_based.independent import Phonetizer
-from tps.utils import prob2bool
-from tps.symbols import punctuation, space, accent, separator, shields, russian, symbols_dict
-from tps.types import Charset
+from .independent import  Phonetizer
+from ....utils import prob2bool
+from ....ssymbols import punctuation, space, accent, separator, shields, russian, symbols_dict
+from ....types import Charset
 
 
 class RUglyPhonetizer(Phonetizer):
@@ -72,10 +72,10 @@ def convert_vowels(phones):
         if phone[0] in russian.vowels:
             if phone[1] == 1:
                 # new_phones.append(accent + separator + russian.vowels[phone[0]])
-		new_phones.append(russian.vowels[phone[0]] + '1')
+                new_phones.append(russian.vowels[phone[0]] + '1')
             else:
                 # new_phones.append(russian.vowels[phone[0]])
-		new_phones.append(russian.vowels[phone[0]] + '0')
+                new_phones.append(russian.vowels[phone[0]] + '0')
         else:
             new_phones.append(phone[0])
         prev = phone[0]

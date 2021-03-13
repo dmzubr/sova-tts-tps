@@ -4,5 +4,5 @@ try:
 except LookupError:
     nltk.download("punkt")
 
-from tps.handler import Handler, get_symbols_length
-from tps.utils import cleaners, load_dict, save_dict, prob2bool, split_to_tokens
+from .handler import Handler, get_symbols_length
+from .utils import cleaners, load_dict, save_dict, prob2bool, split_to_tokens

@@ -1,6 +1,6 @@
-from tps.symbols.english import EN_CMU_SET, EN_SET, GRAPHEMES_EN, PHONEMES_EN_CMU
-from tps.symbols.russian import RU_SET, RU_TRANS_SET, GRAPHEMES_RU, PHONEMES_RU_TRANS
-from tps.types import Charset
+from .english import EN_CMU_SET, EN_SET, GRAPHEMES_EN, PHONEMES_EN_CMU
+from .russian import RU_SET, RU_TRANS_SET, GRAPHEMES_RU, PHONEMES_RU_TRANS
+from ...tps.types import Charset
 
 PHONEMES = set(PHONEMES_EN_CMU + PHONEMES_RU_TRANS)
 

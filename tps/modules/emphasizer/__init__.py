@@ -1,1 +1,1 @@
-from tps.modules.emphasizer.rule_based import Emphasizer
+from .rule_based import Emphasizer

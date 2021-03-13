@@ -4,8 +4,8 @@ import json
 import yaml
 import numpy as np
 
-from tps.types import Charset
-from tps import symbols as smb
+from ...tps.types import Charset
+from ...tps import ssymbols as smb
 
 
 GRAPHEME_DICT = {
