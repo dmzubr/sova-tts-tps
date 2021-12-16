@@ -6,7 +6,7 @@ handler:
 emphasizer:
   type: rule_based
   prefer_user: true
-  dict_source: ["/synthesis/ForwardTacotron/utils/text/sova_tts_tps_zdy/data/stress.dict", "plane"]
+  dict_source: ["/slutbot/synthesis/slutbot_tts_service/ForwardTacotron/utils/text/sova_tts_tps_zdy/data/stress.dict", "plane"]
   # dict_source:
 
 phonetizer:
